@@ -1,6 +1,6 @@
 {
   "name": "@thisux/sveltefix",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "Visual annotation toolbar for Svelte/SvelteKit — connects to AI coding agents via MCP",
   "type": "module",
   "svelte": "./dist/index.js",
