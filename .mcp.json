@@ -1,0 +1,11 @@
+{
+  "mcpServers": {
+    "sveltefix": {
+      "command": "bunx",
+      "args": [
+        "@thisux/sveltefix-mcp",
+        "server"
+      ]
+    }
+  }
+}
