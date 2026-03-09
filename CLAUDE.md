@@ -10,8 +10,8 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 Bun workspaces monorepo with two packages. Always use `bun` — never pnpm/npm/yarn.
 
-- **`packages/toolbar`** (`sveltefix`) — Svelte 5 component library. Built with `svelte-package`. Exports the `<Sveltefix>` component.
-- **`packages/mcp`** (`sveltefix-mcp`) — Node.js MCP + HTTP server. Uses Hono for HTTP, `@modelcontextprotocol/sdk` for MCP over stdio. Has a CLI (`bin/cli.ts`).
+- **`packages/toolbar`** (`@thisux/sveltefix`) — Svelte 5 component library. Built with `svelte-package`. Exports the `<Sveltefix>` component.
+- **`packages/mcp`** (`@thisux/sveltefix-mcp`) — Node.js MCP + HTTP server. Uses Hono for HTTP, `@modelcontextprotocol/sdk` for MCP over stdio. Has a CLI (`bin/cli.ts`).
 
 ## Commands
 
@@ -24,14 +24,14 @@ bun dev:mcp              # tsc --watch
 bun run build            # builds toolbar first, then mcp
 
 # Type checking
-bun --filter sveltefix check       # svelte-check for toolbar
-bun --filter sveltefix-mcp typecheck  # tsc --noEmit for mcp
+bun --filter @thisux/sveltefix check       # svelte-check for toolbar
+bun --filter @thisux/sveltefix-mcp typecheck  # tsc --noEmit for mcp
 
 # Lint
 bun run lint             # runs lint across all packages
 
 # Run MCP server
-bun --filter sveltefix-mcp start   # node dist/bin/cli.js server
+bun --filter @thisux/sveltefix-mcp start   # node dist/bin/cli.js server
 
 # Install dependencies
 bun install

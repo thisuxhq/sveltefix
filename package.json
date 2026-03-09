@@ -5,13 +5,13 @@
     "packages/*"
   ],
   "scripts": {
-    "dev:toolbar": "bun --filter sveltefix dev",
-    "dev:mcp": "bun --filter sveltefix-mcp dev",
-    "build": "bun --filter sveltefix build && bun --filter sveltefix-mcp build",
+    "dev:toolbar": "bun --filter @thisux/sveltefix dev",
+    "dev:mcp": "bun --filter @thisux/sveltefix-mcp dev",
+    "build": "bun --filter @thisux/sveltefix build && bun --filter @thisux/sveltefix-mcp build",
     "lint": "bun --filter '*' lint",
-    "publish:toolbar": "bun run build && cd packages/toolbar && bun publish",
-    "publish:mcp": "bun run build && cd packages/mcp && bun publish",
-    "publish:all": "bun run build && cd packages/toolbar && bun publish && cd ../mcp && bun publish"
+    "publish:toolbar": "bun run build && cd packages/toolbar && bun publish --access public",
+    "publish:mcp": "bun run build && cd packages/mcp && bun publish --access public",
+    "publish:all": "bun run build && cd packages/toolbar && bun publish --access public && cd ../mcp && bun publish --access public"
   },
   "devDependencies": {
     "typescript": "^5.4.0"

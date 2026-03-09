@@ -1,12 +1,13 @@
 {
-  "name": "sveltefix-mcp",
+  "name": "@thisux/sveltefix-mcp",
   "version": "0.1.0",
   "description": "MCP server for sveltefix — connects AI agents to visual browser annotations",
   "type": "module",
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
   "bin": {
-    "sveltefix-mcp": "./dist/bin/cli.js"
+    "sveltefix-mcp": "./dist/bin/cli.js",
+    "@thisux/sveltefix-mcp": "./dist/bin/cli.js"
   },
   "exports": {
     ".": {

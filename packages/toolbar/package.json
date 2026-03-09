@@ -1,5 +1,5 @@
 {
-  "name": "sveltefix",
+  "name": "@thisux/sveltefix",
   "version": "0.1.0",
   "description": "Visual annotation toolbar for Svelte/SvelteKit — connects to AI coding agents via MCP",
   "type": "module",

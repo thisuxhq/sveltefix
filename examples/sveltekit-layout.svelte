@@ -3,7 +3,7 @@
   Drop this into any SvelteKit project.
 -->
 <script lang="ts">
-  import { Sveltefix } from 'sveltefix'
+  import { Sveltefix } from '@thisux/sveltefix'
 </script>
 
 <slot />

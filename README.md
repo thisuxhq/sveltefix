@@ -12,8 +12,8 @@ Built for SvelteKit + Svelte 5 (runes). Inspired by [agentation.dev](https://age
 
 | Package | Description |
 |---|---|
-| [`sveltefix`](./packages/toolbar) | Svelte 5 toolbar component |
-| [`sveltefix-mcp`](./packages/mcp) | Local MCP + HTTP server |
+| [`@thisux/sveltefix`](./packages/toolbar) | Svelte 5 toolbar component |
+| [`@thisux/sveltefix-mcp`](./packages/mcp) | Local MCP + HTTP server |
 
 ---
 
@@ -22,8 +22,8 @@ Built for SvelteKit + Svelte 5 (runes). Inspired by [agentation.dev](https://age
 ### 1. install
 
 ```bash
-npm install sveltefix -D
-npm install sveltefix-mcp -D
+bun add -d @thisux/sveltefix
+bun add -d @thisux/sveltefix-mcp
 ```
 
 ### 2. add the toolbar to your SvelteKit layout
@@ -31,7 +31,7 @@ npm install sveltefix-mcp -D
 ```svelte
 <!-- src/routes/+layout.svelte -->
 <script>
-  import { Sveltefix } from 'sveltefix'
+  import { Sveltefix } from '@thisux/sveltefix'
 </script>
 
 <slot />
@@ -44,13 +44,13 @@ npm install sveltefix-mcp -D
 ### 3. start the MCP server
 
 ```bash
-npx sveltefix-mcp server
+npx @thisux/sveltefix-mcp server
 ```
 
 ### 4. connect to Claude Code
 
 ```bash
-npx sveltefix-mcp init
+npx @thisux/sveltefix-mcp init
 ```
 
 This prints the config snippet to add to `~/.claude/claude_code_config.json`. Restart Claude Code after.

@@ -139,7 +139,7 @@
 
   {#if !serverAvailable}
     <p class="sfix-hint">
-      MCP server offline — run <code>npx sveltefix-mcp server</code>
+      MCP server offline — run <code>npx @thisux/sveltefix-mcp server</code>
     </p>
   {/if}
 </div>
