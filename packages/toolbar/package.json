@@ -1,0 +1,35 @@
+{
+  "name": "sveltefix",
+  "version": "0.1.0",
+  "description": "Visual annotation toolbar for Svelte/SvelteKit — connects to AI coding agents via MCP",
+  "type": "module",
+  "svelte": "./dist/index.js",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "svelte": "./dist/index.js",
+      "import": "./dist/index.js",
+      "types": "./dist/index.d.ts"
+    }
+  },
+  "files": ["dist"],
+  "scripts": {
+    "build": "svelte-package",
+    "dev": "svelte-package --watch",
+    "check": "svelte-check --tsconfig ./tsconfig.json",
+    "lint": "eslint src --ext .ts,.svelte"
+  },
+  "peerDependencies": {
+    "svelte": "^5.0.0"
+  },
+  "devDependencies": {
+    "@sveltejs/package": "^2.3.0",
+    "svelte": "^5.25.0",
+    "svelte-check": "^4.0.0",
+    "typescript": "^5.4.0",
+    "svelte2tsx": "^0.7.0"
+  },
+  "keywords": ["svelte", "sveltekit", "ai", "claude", "annotations", "developer-tools", "mcp"],
+  "license": "MIT"
+}

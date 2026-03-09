@@ -1,0 +1,39 @@
+{
+  "name": "sveltefix-mcp",
+  "version": "0.1.0",
+  "description": "MCP server for sveltefix — connects AI agents to visual browser annotations",
+  "type": "module",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "bin": {
+    "sveltefix-mcp": "./dist/bin/cli.js"
+  },
+  "exports": {
+    ".": {
+      "import": "./dist/index.js",
+      "types": "./dist/index.d.ts"
+    }
+  },
+  "scripts": {
+    "build": "tsc",
+    "dev": "tsc --watch",
+    "start": "node dist/bin/cli.js server",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.10.0",
+    "hono": "^4.7.0",
+    "@hono/node-server": "^1.13.0",
+    "nanoid": "^5.0.0",
+    "zod": "^3.23.0"
+  },
+  "devDependencies": {
+    "typescript": "^5.4.0",
+    "@types/node": "^22.0.0"
+  },
+  "engines": {
+    "node": ">=20"
+  },
+  "keywords": ["svelte", "mcp", "claude", "ai", "annotations", "developer-tools"],
+  "license": "MIT"
+}

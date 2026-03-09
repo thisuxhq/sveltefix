@@ -1,0 +1,19 @@
+{
+  "name": "sveltefix-monorepo",
+  "private": true,
+  "workspaces": [
+    "packages/*"
+  ],
+  "scripts": {
+    "dev:toolbar": "bun --filter sveltefix dev",
+    "dev:mcp": "bun --filter sveltefix-mcp dev",
+    "build": "bun --filter sveltefix build && bun --filter sveltefix-mcp build",
+    "lint": "bun --filter '*' lint",
+    "publish:toolbar": "bun run build && cd packages/toolbar && bun publish",
+    "publish:mcp": "bun run build && cd packages/mcp && bun publish",
+    "publish:all": "bun run build && cd packages/toolbar && bun publish && cd ../mcp && bun publish"
+  },
+  "devDependencies": {
+    "typescript": "^5.4.0"
+  }
+}
