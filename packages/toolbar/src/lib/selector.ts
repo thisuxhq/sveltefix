@@ -13,7 +13,11 @@ export function getSelector(el: Element): string {
     parts.unshift(part)
 
     // if this part is already unique, stop climbing
-    if (document.querySelectorAll(parts.join(' > ')).length === 1) break
+    try {
+      if (document.querySelectorAll(parts.join(' > ')).length === 1) break
+    } catch {
+      // selector may be invalid (e.g. unescaped special chars) — keep climbing
+    }
 
     current = current.parentElement
   }
@@ -111,7 +115,9 @@ function extractComponentName(meta: string): string {
  * We skip them to keep selectors clean for AI consumption.
  */
 function isTailwindUtility(cls: string): boolean {
-  return /^(flex|grid|block|inline|hidden|text-|bg-|p-|m-|w-|h-|border|rounded|shadow|font-|leading-|tracking-|gap-|space-|items-|justify-|overflow-|z-|top-|left-|right-|bottom-|absolute|relative|fixed|sticky|sr-only|container|cursor-)/.test(cls)
+  // Any class with : is a Tailwind variant (sm:, lg:, hover:, dark:, etc.)
+  if (cls.includes(':')) return true
+  return /^(flex|grid|block|inline|hidden|text-|bg-|p-|m-|w-|h-|border|rounded|shadow|font-|leading-|tracking-|gap-|space-|items-|justify-|overflow-|z-|top-|left-|right-|bottom-|absolute|relative|fixed|sticky|sr-only|container|cursor-|transform|transition|duration-|ease-|scale-|rotate-|translate-|skew-|origin-|opacity-|visible|invisible|collapse|grow|shrink|basis-|order-|col-|row-|auto-|place-|self-|break-|truncate|line-clamp|aspect-|columns-|float-|clear-|isolation|object-|overscroll-|scroll-|snap-|touch-|select-|will-change|fill-|stroke-|decoration-|underline|overline|line-through|no-underline|antialiased|subpixel-|italic|not-italic|normal-|ordinal|slashed-|lining-|oldstyle-|proportional-|tabular-|diagonal-|stacked-)/.test(cls)
 }
 
 /**
