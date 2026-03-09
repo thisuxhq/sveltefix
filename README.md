@@ -32,11 +32,12 @@ bun add -d @thisux/sveltefix-mcp
 <!-- src/routes/+layout.svelte -->
 <script>
   import { Sveltefix } from '@thisux/sveltefix'
+  import { dev } from '$app/environment'
 </script>
 
 <slot />
 
-{#if import.meta.env.DEV}
+{#if dev}
   <Sveltefix />
 {/if}
 ```

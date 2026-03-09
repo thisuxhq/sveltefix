@@ -18,11 +18,12 @@ Add the toolbar to your SvelteKit layout:
 <!-- src/routes/+layout.svelte -->
 <script>
   import { Sveltefix } from '@thisux/sveltefix'
+  import { dev } from '$app/environment'
 </script>
 
 <slot />
 
-{#if import.meta.env.DEV}
+{#if dev}
   <Sveltefix />
 {/if}
 ```

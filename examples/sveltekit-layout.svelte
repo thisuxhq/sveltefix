@@ -4,12 +4,13 @@
 -->
 <script lang="ts">
   import { Sveltefix } from '@thisux/sveltefix'
+  import { dev } from '$app/environment'
 </script>
 
 <slot />
 
 <!-- Only render in dev mode — zero impact on production builds -->
-{#if import.meta.env.DEV}
+{#if dev}
   <Sveltefix
     mcpPort={4747}
     showCopyFallback={true}
