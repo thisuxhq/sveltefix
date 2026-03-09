@@ -1,9 +1,9 @@
 {
   "mcpServers": {
     "sveltefix": {
-      "command": "npx",
+      "command": "node",
       "args": [
-        "@thisux/sveltefix-mcp",
+        "node_modules/@thisux/sveltefix-mcp/dist/bin/cli.js",
         "server"
       ]
     }
