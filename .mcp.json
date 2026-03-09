@@ -1,7 +1,7 @@
 {
   "mcpServers": {
     "sveltefix": {
-      "command": "bunx",
+      "command": "npx",
       "args": [
         "@thisux/sveltefix-mcp",
         "server"
