@@ -26,9 +26,9 @@
 
   function computePanelStyle(sel: SelectedElement | null): string {
     if (!sel) return ''
-    const { x, y, width, height } = sel.boundingRect
+    const { x, y, width } = sel.boundingRect
     const panelWidth = 340
-    const panelHeight = 320
+    const panelHeight = 500
     const margin = 12
 
     let left = x + width + margin
@@ -47,7 +47,7 @@
     top = Math.max(margin, top)
     left = Math.max(margin, left)
 
-    return `position:fixed;top:${top}px;left:${left}px;z-index:2147483646`
+    return `position:fixed;top:${top}px;left:${left}px;z-index:2147483646;max-height:calc(100vh - ${margin * 2}px);overflow-y:auto`
   }
 
   // check server health on mount and periodically
