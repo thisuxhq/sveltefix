@@ -53,6 +53,18 @@ export async function postAnnotation(
 }
 
 /**
+ * Delete an annotation from the MCP server.
+ */
+export async function deleteAnnotation(id: string, port: number): Promise<boolean> {
+  try {
+    const res = await fetch(`http://localhost:${port}/annotations/${id}`, { method: 'DELETE' })
+    return res.ok
+  } catch {
+    return false
+  }
+}
+
+/**
  * Check if the MCP server is reachable.
  */
 export async function checkServerHealth(port: number): Promise<boolean> {

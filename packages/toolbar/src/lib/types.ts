@@ -24,6 +24,15 @@ export interface PendingAnnotation {
   severity: AnnotationSeverity
 }
 
+/** Locally tracked annotation (stored in toolbar state after sending). */
+export interface LocalAnnotation {
+  id: string
+  element: string
+  comment: string
+  intent: AnnotationIntent
+  severity: AnnotationSeverity
+}
+
 export interface SveltefixConfig {
   /** Port for the sveltefix-mcp HTTP server. Default: 4747 */
   mcpPort?: number

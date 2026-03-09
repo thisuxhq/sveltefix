@@ -86,11 +86,11 @@
   .sfix-highlight {
     position: absolute;
     pointer-events: none;
-    outline: 2px solid #6366f1;
-    outline-offset: 1px;
-    background: rgba(99, 102, 241, 0.08);
-    border-radius: 3px;
+    outline: 2px solid #818cf8;
+    outline-offset: 2px;
+    background: rgba(129, 140, 248, 0.06);
+    border-radius: 4px;
     z-index: 2147483640;
-    transition: top 60ms, left 60ms, width 60ms, height 60ms;
+    transition: top 50ms ease, left 50ms ease, width 50ms ease, height 50ms ease;
   }
 </style>

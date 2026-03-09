@@ -114,6 +114,10 @@ class AnnotationStore {
       .sort((a, b) => a.createdAt - b.createdAt)
   }
 
+  deleteAnnotation(id: string): boolean {
+    return this.annotations.delete(id)
+  }
+
   updateStatus(id: string, status: AnnotationStatus, meta?: { summary?: string; reason?: string }): boolean {
     const annotation = this.annotations.get(id)
     if (!annotation) return false

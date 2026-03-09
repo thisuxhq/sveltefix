@@ -31,7 +31,7 @@ export function createHttpServer() {
     '*',
     cors({
       origin: '*',
-      allowMethods: ['GET', 'POST', 'OPTIONS'],
+      allowMethods: ['GET', 'POST', 'DELETE', 'OPTIONS'],
       allowHeaders: ['Content-Type'],
     }),
   )
@@ -44,6 +44,13 @@ export function createHttpServer() {
     const input = c.req.valid('json')
     const annotation = store.addAnnotation(input)
     return c.json({ ok: true, annotation }, 201)
+  })
+
+  // delete annotation (from toolbar)
+  app.delete('/annotations/:id', (c) => {
+    const ok = store.deleteAnnotation(c.req.param('id'))
+    if (!ok) return c.json({ error: 'not found' }, 404)
+    return c.json({ ok: true })
   })
 
   // list all sessions (used by toolbar to show status)

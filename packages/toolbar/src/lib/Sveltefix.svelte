@@ -2,20 +2,24 @@
   import Overlay from './Overlay.svelte'
   import Toolbar from './Toolbar.svelte'
   import AnnotationPanel from './AnnotationPanel.svelte'
-  import { postAnnotation, checkServerHealth } from './client.js'
+  import AnnotationList from './AnnotationList.svelte'
+  import { postAnnotation, deleteAnnotation, checkServerHealth } from './client.js'
   import { buildMultiMarkdownOutput, copyToClipboard } from './output.js'
-  import type { SveltefixConfig, AnnotationIntent, AnnotationSeverity, PendingAnnotation, SelectedElement } from './types.js'
+  import type { SveltefixConfig, AnnotationIntent, AnnotationSeverity, PendingAnnotation, SelectedElement, LocalAnnotation } from './types.js'
 
   let { mcpPort = 4747, sessionId, showCopyFallback = true, position = 'bottom-right' }: SveltefixConfig = $props()
 
   // state
-  let active = $state(false)
-  let selected = $state<SelectedElement | null>(null)
+  let active = $state(false)          // crosshair mode
+  let selected = $state<SelectedElement | null>(null)  // element being annotated
+  let showList = $state(false)        // annotation list drawer open
   let submitting = $state(false)
   let serverAvailable = $state(false)
-  let sentCount = $state(0)
+  let annotations = $state<LocalAnnotation[]>([])
   let toastMessage = $state('')
   let toastTimer: ReturnType<typeof setTimeout> | null = null
+
+  let sentCount = $derived(annotations.length)
 
   // panel position — place near the selected element but always in viewport
   let panelStyle = $derived(computePanelStyle(selected))
@@ -23,8 +27,8 @@
   function computePanelStyle(sel: SelectedElement | null): string {
     if (!sel) return ''
     const { x, y, width, height } = sel.boundingRect
-    const panelWidth = 320
-    const panelHeight = 280
+    const panelWidth = 340
+    const panelHeight = 320
     const margin = 12
 
     let left = x + width + margin
@@ -46,7 +50,7 @@
     return `position:fixed;top:${top}px;left:${left}px;z-index:2147483646`
   }
 
-  // check server health on mount and when active changes
+  // check server health on mount and periodically
   async function pollHealth() {
     serverAvailable = await checkServerHealth(mcpPort)
   }
@@ -57,29 +61,58 @@
     return () => clearInterval(interval)
   })
 
-  // keyboard shortcut: shift+A toggles
+  // keyboard shortcuts
   $effect(() => {
     function onKeydown(e: KeyboardEvent) {
+      // Shift+A always toggles crosshair mode
       if (e.key === 'A' && e.shiftKey && !e.metaKey && !e.ctrlKey) {
         const target = e.target as HTMLElement
         if (target.tagName === 'INPUT' || target.tagName === 'TEXTAREA') return
-        toggleActive()
+        e.preventDefault()
+        if (active) {
+          deactivate()
+        } else {
+          enterCrosshair()
+        }
       }
-      if (e.key === 'Escape' && active) {
-        deactivate()
+      // Escape closes whatever is open
+      if (e.key === 'Escape') {
+        if (selected) {
+          selected = null
+        } else if (showList) {
+          showList = false
+        } else if (active) {
+          deactivate()
+        }
       }
     }
     window.addEventListener('keydown', onKeydown)
     return () => window.removeEventListener('keydown', onKeydown)
   })
 
-  function toggleActive() {
-    if (active) {
-      deactivate()
-    } else {
-      active = true
+  function onFabClick() {
+    if (selected) {
+      // close annotation panel
       selected = null
+    } else if (active) {
+      // exit crosshair mode
+      deactivate()
+    } else if (showList) {
+      // close list
+      showList = false
+    } else if (annotations.length > 0) {
+      // show annotation list
+      showList = true
+    } else {
+      // enter crosshair mode
+      enterCrosshair()
     }
+  }
+
+  function enterCrosshair() {
+    active = true
+    selected = null
+    showList = false
   }
 
   function deactivate() {
@@ -103,15 +136,25 @@
     submitting = true
 
     const annotation: PendingAnnotation = { selected, comment, intent, severity }
-
     const result = await postAnnotation(annotation, { mcpPort, sessionId })
 
     if (result.ok) {
-      sentCount++
-      showToast('✓ Sent to Claude Code')
+      annotations = [...annotations, {
+        id: result.annotationId!,
+        element: selected.element,
+        comment,
+        intent,
+        severity,
+      }]
+      // First annotation: show watch mode tip
+      if (annotations.length === 1) {
+        showToast('Sent! Tell Claude Code "watch mode" to auto-receive')
+      } else {
+        showToast('Sent to Claude Code')
+      }
       selected = null
     } else {
-      showToast(`✗ ${result.error}`)
+      showToast(`Failed: ${result.error}`)
     }
 
     submitting = false
@@ -122,8 +165,19 @@
     const annotation: PendingAnnotation = { selected, comment, intent, severity }
     const markdown = buildMultiMarkdownOutput([annotation])
     const ok = await copyToClipboard(markdown)
-    showToast(ok ? '📋 Copied to clipboard' : '✗ Copy failed')
+    showToast(ok ? 'Copied to clipboard' : 'Copy failed')
     selected = null
+  }
+
+  async function onDeleteAnnotation(id: string) {
+    await deleteAnnotation(id, mcpPort)
+    annotations = annotations.filter(a => a.id !== id)
+    if (annotations.length === 0) showList = false
+  }
+
+  function onNewFromList() {
+    showList = false
+    enterCrosshair()
   }
 </script>
 
@@ -133,11 +187,23 @@
 <!-- floating action button -->
 <Toolbar
   active={active}
+  listOpen={showList}
   serverAvailable={serverAvailable}
   annotationCount={sentCount}
   position={position}
-  ontoggle={toggleActive}
+  ontoggle={onFabClick}
 />
+
+<!-- annotation list drawer -->
+{#if showList}
+  <AnnotationList
+    {annotations}
+    {position}
+    ondelete={onDeleteAnnotation}
+    onnew={onNewFromList}
+    onclose={() => { showList = false }}
+  />
+{/if}
 
 <!-- annotation panel -->
 {#if selected}
@@ -170,14 +236,14 @@
   .sfix-toast {
     position: fixed;
     z-index: 2147483647;
-    background: #0f0f11;
-    border: 1px solid #2a2a30;
+    background: #111114;
+    border: 1px solid #27272e;
     color: #e8e8ec;
-    font-family: ui-sans-serif, system-ui, sans-serif;
+    font-family: ui-sans-serif, system-ui, -apple-system, sans-serif;
     font-size: 13px;
-    padding: 8px 14px;
-    border-radius: 8px;
-    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.4);
+    padding: 10px 16px;
+    border-radius: 10px;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.4), 0 0 0 1px rgba(255,255,255,0.03);
     animation: sfix-fadein 0.15s ease;
   }
 
