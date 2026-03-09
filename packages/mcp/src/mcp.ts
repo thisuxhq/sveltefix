@@ -19,7 +19,7 @@ export async function startMcpServer() {
 
   // ── 1. list sessions ───────────────────────────────────────────────────────
   server.tool(
-    'agentation_list_sessions',
+    'sveltefix_list_sessions',
     'List all active annotation sessions. Use this to discover which pages have feedback.',
     {},
     async () => {
@@ -30,7 +30,7 @@ export async function startMcpServer() {
 
   // ── 2. get session ─────────────────────────────────────────────────────────
   server.tool(
-    'agentation_get_session',
+    'sveltefix_get_session',
     'Get a session with all its annotations.',
     { sessionId: z.string().describe('The session ID to retrieve') },
     async ({ sessionId }) => {
@@ -42,7 +42,7 @@ export async function startMcpServer() {
 
   // ── 3. get pending for session ─────────────────────────────────────────────
   server.tool(
-    'agentation_get_pending',
+    'sveltefix_get_pending',
     'Get all pending (unacknowledged) annotations for a session. Use this to see what feedback needs attention.',
     { sessionId: z.string().describe('The session ID to check') },
     async ({ sessionId }) => {
@@ -55,7 +55,7 @@ export async function startMcpServer() {
 
   // ── 4. get all pending ─────────────────────────────────────────────────────
   server.tool(
-    'agentation_get_all_pending',
+    'sveltefix_get_all_pending',
     'Get all pending annotations across ALL sessions. Use this to see all unaddressed feedback from the human.',
     {},
     async () => {
@@ -66,7 +66,7 @@ export async function startMcpServer() {
 
   // ── 5. acknowledge ─────────────────────────────────────────────────────────
   server.tool(
-    'agentation_acknowledge',
+    'sveltefix_acknowledge',
     "Mark an annotation as acknowledged. Use this to let the human know you've seen their feedback and will address it.",
     { annotationId: z.string().describe('The annotation ID to acknowledge') },
     async ({ annotationId }) => {
@@ -78,7 +78,7 @@ export async function startMcpServer() {
 
   // ── 6. resolve ─────────────────────────────────────────────────────────────
   server.tool(
-    'agentation_resolve',
+    'sveltefix_resolve',
     "Mark an annotation as resolved. Use this after you've addressed the feedback. Include a summary of what you did.",
     {
       annotationId: z.string().describe('The annotation ID to resolve'),
@@ -93,7 +93,7 @@ export async function startMcpServer() {
 
   // ── 7. dismiss ─────────────────────────────────────────────────────────────
   server.tool(
-    'agentation_dismiss',
+    'sveltefix_dismiss',
     "Dismiss an annotation with a reason. Use this when you've decided not to address the feedback.",
     {
       annotationId: z.string().describe('The annotation ID to dismiss'),
@@ -108,7 +108,7 @@ export async function startMcpServer() {
 
   // ── 8. reply ───────────────────────────────────────────────────────────────
   server.tool(
-    'agentation_reply',
+    'sveltefix_reply',
     "Add a reply to an annotation's thread. Use this to ask clarifying questions or provide updates to the human.",
     {
       annotationId: z.string().describe('The annotation ID to reply to'),
@@ -123,7 +123,7 @@ export async function startMcpServer() {
 
   // ── 9. watch annotations ───────────────────────────────────────────────────
   server.tool(
-    'agentation_watch_annotations',
+    'sveltefix_watch_annotations',
     'Block until new annotations appear, then return them. Use in a loop for hands-free mode: annotate in browser, agent picks up automatically.',
     {
       sessionId: z.string().optional().describe('Watch only this session (omit for all sessions)'),

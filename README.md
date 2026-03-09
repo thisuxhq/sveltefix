@@ -62,14 +62,14 @@ This prints the config snippet to add to `~/.claude/claude_code_config.json`. Re
 - **Shift+A** — toggle annotation mode
 - **Click any element** — open annotation panel
 - **Add comment + intent + severity** — hit "Send to Agent"
-- Claude Code picks it up automatically via `agentation_watch_annotations`
+- Claude Code picks it up automatically via `sveltefix_watch_annotations`
 
 ### hands-free mode
 
 Add this to your `CLAUDE.md`:
 
 ```md
-When I say "watch mode", call agentation_watch_annotations in a loop.
+When I say "watch mode", call sveltefix_watch_annotations in a loop.
 For each annotation: acknowledge it, make the fix, then resolve it with a summary.
 Continue watching until I say stop.
 ```
@@ -97,15 +97,15 @@ Nine tools exposed to Claude Code:
 
 | Tool | Description |
 |---|---|
-| `agentation_list_sessions` | List all annotation sessions |
-| `agentation_get_session` | Get session + all annotations |
-| `agentation_get_pending` | Get pending annotations for session |
-| `agentation_get_all_pending` | Get all pending across all sessions |
-| `agentation_acknowledge` | Mark as seen |
-| `agentation_resolve` | Mark as fixed (with summary) |
-| `agentation_dismiss` | Dismiss with reason |
-| `agentation_reply` | Add reply to annotation thread |
-| `agentation_watch_annotations` | Block until new annotations appear |
+| `sveltefix_list_sessions` | List all annotation sessions |
+| `sveltefix_get_session` | Get session + all annotations |
+| `sveltefix_get_pending` | Get pending annotations for session |
+| `sveltefix_get_all_pending` | Get all pending across all sessions |
+| `sveltefix_acknowledge` | Mark as seen |
+| `sveltefix_resolve` | Mark as fixed (with summary) |
+| `sveltefix_dismiss` | Dismiss with reason |
+| `sveltefix_reply` | Add reply to annotation thread |
+| `sveltefix_watch_annotations` | Block until new annotations appear |
 
 ---
 

@@ -70,14 +70,14 @@ Types are defined independently in both packages (`packages/toolbar/src/lib/type
 ## Watch Mode
 
 When the user says "watch mode" or "start watching":
-1. Call `agentation_watch_annotations` (blocks until annotations appear)
+1. Call `sveltefix_watch_annotations` (blocks until annotations appear)
 2. For each annotation returned:
-   - Call `agentation_acknowledge` immediately (lets user know you saw it)
+   - Call `sveltefix_acknowledge` immediately (lets user know you saw it)
    - Read the `svelteComponents` field — open that file directly
    - Read the `elementPath` (CSS selector) to locate the element in the file
    - Make the requested change based on `comment`, `intent`, and `severity`
-   - Call `agentation_resolve` with a brief summary of what you changed
-3. Call `agentation_watch_annotations` again to keep listening
+   - Call `sveltefix_resolve` with a brief summary of what you changed
+3. Call `sveltefix_watch_annotations` again to keep listening
 4. Stop when the user says "stop watching" or after 5 minutes of inactivity
 
 ## Annotation Priority
@@ -89,6 +89,6 @@ Process in this order:
 
 ## When to Ask
 
-- `intent: question` — the user is asking, not requesting a change. Use `agentation_reply` to answer.
-- `intent: approve` — user is happy with the current state. Call `agentation_resolve` with "No changes needed — approved."
-- Unclear feedback — use `agentation_reply` to ask for clarification before making changes.
+- `intent: question` — the user is asking, not requesting a change. Use `sveltefix_reply` to answer.
+- `intent: approve` — user is happy with the current state. Call `sveltefix_resolve` with "No changes needed — approved."
+- Unclear feedback — use `sveltefix_reply` to ask for clarification before making changes.
